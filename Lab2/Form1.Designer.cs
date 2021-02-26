@@ -50,12 +50,8 @@
 			this.nUDDiameter = new System.Windows.Forms.NumericUpDown();
 			this.nUDMass = new System.Windows.Forms.NumericUpDown();
 			this.label1 = new System.Windows.Forms.Label();
-			this.statusStrip1 = new System.Windows.Forms.StatusStrip();
-			this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
-			this.toolStripStatusLabel2 = new System.Windows.Forms.ToolStripStatusLabel();
 			((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
 			this.splitContainer1.Panel1.SuspendLayout();
-			this.splitContainer1.Panel2.SuspendLayout();
 			this.splitContainer1.SuspendLayout();
 			this.groupBox1.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.nUDFriction)).BeginInit();
@@ -68,7 +64,6 @@
 			((System.ComponentModel.ISupportInitialize)(this.nUDPosition)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.nUDDiameter)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.nUDMass)).BeginInit();
-			this.statusStrip1.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// splitContainer1
@@ -91,7 +86,6 @@
 			// splitContainer1.Panel2
 			// 
 			this.splitContainer1.Panel2.BackColor = System.Drawing.Color.LightBlue;
-			this.splitContainer1.Panel2.Controls.Add(this.statusStrip1);
 			this.splitContainer1.Size = new System.Drawing.Size(689, 529);
 			this.splitContainer1.SplitterDistance = 135;
 			this.splitContainer1.SplitterWidth = 1;
@@ -414,29 +408,6 @@
 			this.label1.TabIndex = 2;
 			this.label1.Text = "Diameter";
 			// 
-			// statusStrip1
-			// 
-			this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripStatusLabel1,
-            this.toolStripStatusLabel2});
-			this.statusStrip1.Location = new System.Drawing.Point(0, 503);
-			this.statusStrip1.Name = "statusStrip1";
-			this.statusStrip1.Size = new System.Drawing.Size(549, 22);
-			this.statusStrip1.TabIndex = 1;
-			this.statusStrip1.Text = "statusStrip1";
-			// 
-			// toolStripStatusLabel1
-			// 
-			this.toolStripStatusLabel1.Name = "toolStripStatusLabel1";
-			this.toolStripStatusLabel1.Size = new System.Drawing.Size(118, 17);
-			this.toolStripStatusLabel1.Text = "toolStripStatusLabel1";
-			// 
-			// toolStripStatusLabel2
-			// 
-			this.toolStripStatusLabel2.Name = "toolStripStatusLabel2";
-			this.toolStripStatusLabel2.Size = new System.Drawing.Size(118, 17);
-			this.toolStripStatusLabel2.Text = "toolStripStatusLabel2";
-			// 
 			// Form1
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -448,11 +419,8 @@
 			this.Name = "Form1";
 			this.Text = "Puck simulator";
 			this.Load += new System.EventHandler(this.Form1_Load);
-			this.ResizeEnd += new System.EventHandler(this.nUD_ValueChanged);
-			this.LocationChanged += new System.EventHandler(this.nUD_ValueChanged);
+			this.SizeChanged += new System.EventHandler(this.nUD_ValueChanged);
 			this.splitContainer1.Panel1.ResumeLayout(false);
-			this.splitContainer1.Panel2.ResumeLayout(false);
-			this.splitContainer1.Panel2.PerformLayout();
 			((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
 			this.splitContainer1.ResumeLayout(false);
 			this.groupBox1.ResumeLayout(false);
@@ -468,8 +436,6 @@
 			((System.ComponentModel.ISupportInitialize)(this.nUDPosition)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.nUDDiameter)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.nUDMass)).EndInit();
-			this.statusStrip1.ResumeLayout(false);
-			this.statusStrip1.PerformLayout();
 			this.ResumeLayout(false);
 
 		}
@@ -498,9 +464,6 @@
 		private System.Windows.Forms.NumericUpDown nUDFriction;
 		private System.Windows.Forms.Label label8;
 		private System.Windows.Forms.NumericUpDown nUDMass;
-		private System.Windows.Forms.StatusStrip statusStrip1;
-		private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel1;
-		private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel2;
 	}
 }
 

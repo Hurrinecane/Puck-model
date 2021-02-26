@@ -8,11 +8,9 @@ using System.Numerics;
 
 namespace Lab2
 {
-
-
 	public partial class Form1 : Form
 	{
-		float mass, radius, position, strength, speed, angle;
+		float mass, diameter, position, strength, speed, angle;
 
 		float height, width, friction, alpha;
 
@@ -23,9 +21,6 @@ namespace Lab2
 		Stopwatch stopwatch;
 		PointF[] box;
 		RectangleF puck;
-
-		Vector2 vDir, vPuck, vSpeed;
-
 
 		Thread th;
 		Graphics graphics;
@@ -74,7 +69,6 @@ namespace Lab2
 					else
 					{
 						MessageBox.Show("Затраченное время: " + stopwatch.Elapsed.TotalSeconds + "\r\n");
-						stopwatch.Reset();
 						Reset();
 					}
 				else graphics.DrawLine(new Pen(Color.BlueViolet), puck.X + puck.Width / 2, puck.Y + puck.Width / 2, puck.X + puck.Width / 2 + puck.Width * (float)Math.Cos(angle), puck.Y + puck.Width / 2 + puck.Width * (float)Math.Sin(-angle));
@@ -119,14 +113,30 @@ namespace Lab2
 
 		private void Reset()
 		{
+
+			stopwatch.Reset();
+			stopwatch.Stop();
+
+			mass = (float)nUDMass.Value;
+			diameter = (float)nUDDiameter.Value;
+			position = (float)nUDPosition.Value;
 			strength = (float)nUDStrength.Value;
 			angle = (float)nUDAngle.Value * (float)Math.PI / 180F;
+
+			height = (float)nUDHeight.Value / 2;
+			width = (float)nUDWidth.Value;
+			friction = (float)nUDFriction.Value;
+			alpha = (float)nUDApha.Value * (float)Math.PI / 180F;
+
+			fG = splitContainer1.Panel2.CreateGraphics();
+			nUDDiameter.Maximum = Convert.ToDecimal(height);
+			nUDPosition.Maximum = Convert.ToDecimal(width - diameter);
 			t = 0;
 
 			float X0 = splitContainer1.Panel2.Width / 2 - width / 2;
 			float Y0 = splitContainer1.Panel2.Height / 2 - height / 4;
 
-			puck = new RectangleF(X0 + position, Y0 + height - radius - 1, radius, radius);
+			puck = new RectangleF(X0 + position, Y0 + height - diameter - 1, diameter, diameter);
 
 			box = new PointF[]
 			{
@@ -143,19 +153,6 @@ namespace Lab2
 		private void nUD_ValueChanged(object sender, EventArgs e)
 		{
 			Reset();
-			mass = (float)nUDMass.Value;
-			radius = (float)nUDDiameter.Value;
-			position = (float)nUDPosition.Value;
-
-			height = (float)nUDHeight.Value / 2;
-			width = (float)nUDWidth.Value;
-			friction = (float)nUDFriction.Value;
-			alpha = (float)nUDApha.Value * (float)Math.PI / 180F;
-
-			fG = splitContainer1.Panel2.CreateGraphics();
-			nUDDiameter.Maximum = Convert.ToDecimal(height);
-			nUDPosition.Maximum = Convert.ToDecimal(width - radius);
-
 		}
 
 		private void button1_Click(object sender, EventArgs e)
@@ -163,7 +160,6 @@ namespace Lab2
 			if (stopwatch.IsRunning)
 			{
 				Reset();
-				stopwatch.Reset();
 			}
 			else
 				stopwatch.Start();
