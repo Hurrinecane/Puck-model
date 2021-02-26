@@ -24,6 +24,9 @@ namespace Lab2
 		PointF[] box;
 		RectangleF puck;
 
+		Vector2 vDir, vPuck, vSpeed;
+
+
 		Thread th;
 		Graphics graphics;
 		Graphics fG;
