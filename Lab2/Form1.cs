@@ -149,7 +149,6 @@ namespace Lab2
 			new PointF(X0, Y0),
 			};
 		}
-
 		private void nUD_ValueChanged(object sender, EventArgs e)
 		{
 			Reset();
