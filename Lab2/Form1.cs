@@ -20,6 +20,10 @@ namespace Lab2
 
 		Stopwatch stopwatch;
 		PointF[] box;
+		Vector2 vPuck;
+		Vector2 vF;
+		Vector2 vFtr;
+		Vector2 vDir;
 		RectangleF puck;
 
 		Thread th;
@@ -58,13 +62,21 @@ namespace Lab2
 					if (strength > 0)
 					{
 						t++;
-						strength -= friction * g;
-						speed = strength / mass;
-						puck.X += speed * (float)Math.Cos(angle) * t / 100;
-						puck.Y += speed * (float)Math.Sin(-angle) * t / 100;
-						var tmp = circleLineCollision(puck, box);
+						vPuck += vF;
+						puck.Y = vPuck.Y;
+						puck.X = vPuck.X;
+						vF -= vFtr;
+						//puck.Y += speed * (float)Math.Sin(-angle) * t / 100;
+						//puck.X += speed * (float)Math.Cos(angle) * t / 100;
+						int tmp = circleLineCollision(puck, box);
 						if (tmp >= 0)
+						{
+							///Vector2 vWhall = new Vector2(box[tmp].Y - box[tmp + 1].Y, box[tmp + 1].X - box[tmp].X);
+							///vPuck = vPuck - 2 * vWhall * ((vPuck * vWhall) / (vWhall * vWhall));
 							angle = (180 + angle);
+						}
+
+
 					}
 					else
 					{
@@ -77,7 +89,7 @@ namespace Lab2
 				fG.DrawImage(btm, 0, 0);
 			}
 		}
-		private double circleLineCollision(RectangleF rectangle, PointF[] points)
+		private int circleLineCollision(RectangleF rectangle, PointF[] points)
 		{
 			Vector2 p = new Vector2(rectangle.X + rectangle.Width / 2, rectangle.Y + rectangle.Width / 2);
 			for (int i = 0, j = 1; i < box.Length - 1; i++, j++)
@@ -113,7 +125,6 @@ namespace Lab2
 
 		private void Reset()
 		{
-
 			stopwatch.Reset();
 			stopwatch.Stop();
 
@@ -137,6 +148,11 @@ namespace Lab2
 			float Y0 = splitContainer1.Panel2.Height / 2 - height / 4;
 
 			puck = new RectangleF(X0 + position, Y0 + height - diameter - 1, diameter, diameter);
+			vPuck = new Vector2(puck.X, puck.Y);
+			vDir = new Vector2((float)Math.Cos(angle), (float)Math.Sin(angle));
+			vFtr = new Vector2(friction * g, friction * g) * -vDir;
+			vF = new Vector2(strength, strength);
+			//vPuck = new Vector2(puck.X + puck.Width / 2, puck.Y + puck.Width / 2);
 
 			box = new PointF[]
 			{
