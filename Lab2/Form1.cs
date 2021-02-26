@@ -16,7 +16,7 @@ namespace Lab2
 
 		float g = 9.80665f;
 
-		int t = 0;
+		float t = 0.1f;
 
 		Stopwatch stopwatch;
 		PointF[] box;
@@ -61,19 +61,20 @@ namespace Lab2
 				if (stopwatch.IsRunning)
 					if (strength > 0)
 					{
-						t++;
-						vPuck += vF;
+
+						vPuck += vF * vDir  *t;
 						puck.Y = vPuck.Y;
 						puck.X = vPuck.X;
-						vF -= vFtr;
+						vF += vFtr *t;
 						//puck.Y += speed * (float)Math.Sin(-angle) * t / 100;
 						//puck.X += speed * (float)Math.Cos(angle) * t / 100;
 						int tmp = circleLineCollision(puck, box);
 						if (tmp >= 0)
 						{
-							///Vector2 vWhall = new Vector2(box[tmp].Y - box[tmp + 1].Y, box[tmp + 1].X - box[tmp].X);
-							///vPuck = vPuck - 2 * vWhall * ((vPuck * vWhall) / (vWhall * vWhall));
-							angle = (180 + angle);
+							Vector2 vWhall = new Vector2(box[tmp].Y - box[tmp + 1].Y, box[tmp + 1].X - box[tmp].X);
+							vDir = Vector2.Normalize(vDir - 2 * vWhall * (vDir * vWhall / vWhall.Length()));
+							//vF*= vDir;
+							//vFtr *= -vDir;
 						}
 
 
@@ -142,7 +143,6 @@ namespace Lab2
 			fG = splitContainer1.Panel2.CreateGraphics();
 			nUDDiameter.Maximum = Convert.ToDecimal(height);
 			nUDPosition.Maximum = Convert.ToDecimal(width - diameter);
-			t = 0;
 
 			float X0 = splitContainer1.Panel2.Width / 2 - width / 2;
 			float Y0 = splitContainer1.Panel2.Height / 2 - height / 4;
@@ -151,7 +151,7 @@ namespace Lab2
 			vPuck = new Vector2(puck.X, puck.Y);
 			vDir = new Vector2((float)Math.Cos(angle), (float)Math.Sin(angle));
 			vFtr = new Vector2(friction * g, friction * g) * -vDir;
-			vF = new Vector2(strength, strength);
+			vF = new Vector2(strength/mass, strength/mass);
 			//vPuck = new Vector2(puck.X + puck.Width / 2, puck.Y + puck.Width / 2);
 
 			box = new PointF[]
