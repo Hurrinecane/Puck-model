@@ -165,13 +165,8 @@
             0,
             0});
 			this.nUDApha.Location = new System.Drawing.Point(7, 126);
-			this.nUDApha.Maximum = new decimal(new int[] {
-            150,
-            0,
-            0,
-            0});
 			this.nUDApha.Minimum = new decimal(new int[] {
-            30,
+            70,
             0,
             0,
             0});
@@ -215,7 +210,7 @@
 			this.nUDHeight.Size = new System.Drawing.Size(87, 23);
 			this.nUDHeight.TabIndex = 3;
 			this.nUDHeight.Value = new decimal(new int[] {
-            200,
+            300,
             0,
             0,
             0});
@@ -233,7 +228,7 @@
 			this.nUDWidth.Size = new System.Drawing.Size(87, 23);
 			this.nUDWidth.TabIndex = 1;
 			this.nUDWidth.Value = new decimal(new int[] {
-            200,
+            300,
             0,
             0,
             0});
@@ -284,6 +279,11 @@
 			this.nUDAngle.Name = "nUDAngle";
 			this.nUDAngle.Size = new System.Drawing.Size(87, 23);
 			this.nUDAngle.TabIndex = 9;
+			this.nUDAngle.Value = new decimal(new int[] {
+            210,
+            0,
+            0,
+            0});
 			this.nUDAngle.ValueChanged += new System.EventHandler(this.nUD_ValueChanged);
 			// 
 			// label7

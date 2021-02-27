@@ -10,21 +10,18 @@ namespace Lab2
 {
 	public partial class Form1 : Form
 	{
-		float mass, diameter, position, strength, speed, angle;
-
-		float height, width, friction, alpha;
+		float mass, diameter, position, strength, angle, height, width, friction, alpha, distance;
 
 		float g = 9.80665f;
-
-		float t = 0.1f;
+		readonly float t = 0.3f;
 
 		Stopwatch stopwatch;
 		PointF[] box;
 		Vector2 vPuck;
-		Vector2 vF;
-		Vector2 vFtr;
+		Vector2 vTmp;
 		Vector2 vDir;
 		RectangleF puck;
+
 
 		Thread th;
 		Graphics graphics;
@@ -61,33 +58,33 @@ namespace Lab2
 				if (stopwatch.IsRunning)
 					if (strength > 0)
 					{
-
-						vPuck += vF * vDir  *t;
+						strength -= friction * g * t;
+						vPuck +=  vDir * strength / mass * t;
 						puck.Y = vPuck.Y;
 						puck.X = vPuck.X;
-						vF += vFtr *t;
-						//puck.Y += speed * (float)Math.Sin(-angle) * t / 100;
-						//puck.X += speed * (float)Math.Cos(angle) * t / 100;
+						graphics.FillEllipse(brush, puck);
+						fG.DrawImage(btm, 0, 0);
 						int tmp = circleLineCollision(puck, box);
 						if (tmp >= 0)
 						{
+							distance += Vector2.Distance(vTmp, vPuck);
+							vTmp = vPuck;
 							Vector2 vWhall = new Vector2(box[tmp].Y - box[tmp + 1].Y, box[tmp + 1].X - box[tmp].X);
-							vDir = Vector2.Normalize(vDir - 2 * vWhall * (vDir * vWhall / vWhall.Length()));
-							//vF*= vDir;
-							//vFtr *= -vDir;
+							vWhall /= vWhall.Length();
+							vDir = (vDir - 2 * vWhall * (vDir * vWhall));
+
 						}
-
-
 					}
 					else
 					{
-						MessageBox.Show("Затраченное время: " + stopwatch.Elapsed.TotalSeconds + "\r\n");
+						distance += Vector2.Distance(vTmp, vPuck);
+						MessageBox.Show("Затраченное время: " + stopwatch.Elapsed.TotalSeconds + "\r\n" + "Пройденное расстояние: "+ distance);
 						Reset();
 					}
 				else graphics.DrawLine(new Pen(Color.BlueViolet), puck.X + puck.Width / 2, puck.Y + puck.Width / 2, puck.X + puck.Width / 2 + puck.Width * (float)Math.Cos(angle), puck.Y + puck.Width / 2 + puck.Width * (float)Math.Sin(-angle));
-
 				graphics.FillEllipse(brush, puck);
 				fG.DrawImage(btm, 0, 0);
+
 			}
 		}
 		private int circleLineCollision(RectangleF rectangle, PointF[] points)
@@ -126,6 +123,7 @@ namespace Lab2
 
 		private void Reset()
 		{
+			distance = 0;
 			stopwatch.Reset();
 			stopwatch.Stop();
 
@@ -148,11 +146,8 @@ namespace Lab2
 			float Y0 = splitContainer1.Panel2.Height / 2 - height / 4;
 
 			puck = new RectangleF(X0 + position, Y0 + height - diameter - 1, diameter, diameter);
-			vPuck = new Vector2(puck.X, puck.Y);
+			vTmp = vPuck = new Vector2(puck.X, puck.Y);
 			vDir = new Vector2((float)Math.Cos(angle), (float)Math.Sin(angle));
-			vFtr = new Vector2(friction * g, friction * g) * -vDir;
-			vF = new Vector2(strength/mass, strength/mass);
-			//vPuck = new Vector2(puck.X + puck.Width / 2, puck.Y + puck.Width / 2);
 
 			box = new PointF[]
 			{
@@ -182,31 +177,3 @@ namespace Lab2
 
 	}
 }
-/*private int Collision(double X, double Y, double radius, PointF[] points)
-		{
-			double x, y, r, a, c, b, d, h;
-			r = puck.Width / 2;
-			x = puck.X + r;
-			y = puck.Y + r;
-			for (int i = 0, j = 1; i < box.Length - 1; i++, j++)
-			{
-				a = Math.Sqrt((x - box[j].X) * (x - box[j].X) + (y - box[j].Y) * (y - box[j].Y));
-				b = Math.Sqrt((x - box[i].X) * (x - box[i].X) + (y - box[i].Y) * (y - box[i].Y));
-				c = Math.Sqrt((box[i].X - box[j].X) * (box[i].X - box[j].X) + (box[i].Y - box[j].Y) * (box[i].Y - box[j].Y));
-				// s = Math.Sqrt((a+b+c)/2*((a+b+c)/2-a)((a+b+c)/2-b)((a+b+c)/2-c))
-				h = 2 * Math.Sqrt((a + b + c) / 2 * ((a + b + c) / 2 - a) * ((a + b + c) / 2 - b) * ((a + b + c) / 2 - c)) / c;
-				d = Math.Sqrt(a * a - h * h);
-				if (0 <= h && h <= r)
-				{
-					return i; //collision!
-				}
-				else if (d < 0 || d < c)
-					if (((box[i].X - x) * (box[i].X - x) + (box[i].Y - y) * (box[i].Y - y)) <= r * r)
-					{
-						return i;   //collision!
-					}
-			}
-
-			return -1;
-		}
-*/
